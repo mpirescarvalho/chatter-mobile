@@ -1,0 +1,12 @@
+{
+  "name": "Chatter",
+  "displayName": "Chatter",
+  "expo": {
+    "name": "Chatter",
+    "slug": "Chatter",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

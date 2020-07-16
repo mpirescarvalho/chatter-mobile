@@ -10,7 +10,13 @@ const Stack = createStackNavigator();
 const Routes = () => (
   <NavigationContainer>
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Home"
+        component={Home}
+      />
       <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
   </NavigationContainer>

@@ -17,7 +17,7 @@ const Home = ({ navigation }) => {
     roomName: false,
   });
 
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState('Marcelo');
   const [roomName, setRoomName] = useState('');
 
   const isFocused = useIsFocused();
@@ -49,7 +49,10 @@ const Home = ({ navigation }) => {
       setErrors({ ...errors, nickname: true });
       return;
     }
-    navigation.navigate('Chat', { roomId: room.id });
+    navigation.navigate('Chat', {
+      roomId: room.id,
+      roomName: room.name,
+    });
   }
 
   function handleCreateRoom() {
@@ -66,7 +69,11 @@ const Home = ({ navigation }) => {
     api.post('/rooms', { name: roomName }).then((res) => {
       const { room_id } = res.data;
       if (room_id) {
-        navigation.navigate('Chat', { roomId: room_id, nickname });
+        navigation.navigate('Chat', {
+          roomId: room_id,
+          nickname,
+          roomName,
+        });
         setRoomName('');
       }
     });
@@ -77,6 +84,7 @@ const Home = ({ navigation }) => {
       <Title>Join a room, or create your own.</Title>
 
       <Input
+        maxLength={20}
         error={errors.nickname}
         autoCorrect={false}
         placeholder="Nickname"
@@ -93,6 +101,7 @@ const Home = ({ navigation }) => {
       />
 
       <Input
+        maxLength={20}
         error={errors.roomName}
         autoCorrect={false}
         placeholder="Room name"

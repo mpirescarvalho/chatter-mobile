@@ -17,7 +17,20 @@ const Routes = () => (
         name="Home"
         component={Home}
       />
-      <Stack.Screen name="Chat" component={Chat} />
+      <Stack.Screen
+        options={({ route }) => ({
+          title: route.params.roomName,
+          headerTitleAlign: 'center',
+          headerStyle: {
+            elevation: 0,
+          },
+          headerTitleStyle: {
+            fontFamily: 'RobotoMono_400Regular',
+          },
+        })}
+        name="Chat"
+        component={Chat}
+      />
     </Stack.Navigator>
   </NavigationContainer>
 );

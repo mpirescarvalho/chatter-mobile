@@ -25,7 +25,7 @@ export const RoomList = styled.FlatList.attrs({
 `;
 
 export const Button = styled(RectButton)`
-  height: 46px;
+  height: 55px;
   background: #ff4444;
   border-radius: 4px;
   align-items: center;

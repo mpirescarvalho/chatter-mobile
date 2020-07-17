@@ -5,7 +5,7 @@ import { Wrapper, Container, RoomName, Online } from './styles';
 const RoomItem = ({ roomData, onPress }) => {
   return (
     <Wrapper>
-      <Container onPress={onPress}>
+      <Container onPress={() => onPress(roomData)}>
         <RoomName>{roomData.name}</RoomName>
         <Online>{roomData.people.length}</Online>
       </Container>

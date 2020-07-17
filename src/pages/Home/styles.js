@@ -10,9 +10,9 @@ export const Container = styled.SafeAreaView`
 export const Title = styled.Text`
   color: #fff;
   font-size: 36px;
-  font-weight: bold;
   text-align: center;
   margin-bottom: 38px;
+  font-family: 'RobotoMono_700Bold';
 `;
 
 export const RoomList = styled.FlatList.attrs({
@@ -35,6 +35,6 @@ export const Button = styled(RectButton)`
 
 export const ButtonText = styled.Text`
   color: #fff;
-  font-weight: bold;
+  font-family: 'RobotoMono_700Bold';
   font-size: 15px;
 `;

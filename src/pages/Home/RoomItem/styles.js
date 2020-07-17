@@ -16,9 +16,11 @@ export const Container = styled(RectButton)`
 export const RoomName = styled.Text`
   font-size: 12px;
   color: #000;
+  font-family: 'RobotoMono_400Regular';
 `;
 
 export const Online = styled.Text`
   font-size: 11px;
   color: #575757;
+  font-family: 'RobotoMono_400Regular';
 `;

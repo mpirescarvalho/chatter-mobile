@@ -16,4 +16,5 @@ export const TInput = styled.TextInput.attrs({
   font-size: 15px;
   margin-left: 10px;
   color: #222;
+  font-family: 'RobotoMono_400Regular';
 `;

@@ -51,6 +51,7 @@ const Home = ({ navigation }) => {
     }
     navigation.navigate('Chat', {
       roomId: room.id,
+      nickname,
       roomName: room.name,
     });
   }

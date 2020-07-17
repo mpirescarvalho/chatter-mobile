@@ -1,10 +1,17 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useLayoutEffect,
+} from 'react';
 import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import api from '../../services/api';
 
 import Message from './Message';
+import ToggleContainer from '../../components/ToggleContainer';
 
 import {
   Container,
@@ -14,8 +21,6 @@ import {
   ButtonWrapper,
   InputButton,
 } from './styles';
-
-const data = [1, 2, 3, 4];
 
 const colors = [
   '#EB5757',
@@ -28,16 +33,30 @@ const colors = [
   '#607d8b',
 ];
 
-const Chat = ({ route }) => {
+const Chat = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [myID, setMyID] = useState();
   const [messages, setMessages] = useState([]);
   const [room, setRoom] = useState();
   const [peopleColors, setPeopleColors] = useState();
+  const [peopleOpened, setPeopleOpened] = useState(false);
 
   const [myMessage, setMyMessage] = useState('');
 
   const { roomId, nickname } = route.params;
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          style={{ marginRight: 16 }}
+          onPress={() => setPeopleOpened((value) => !value)}
+        >
+          <Icon name="people" color="#000" size={24} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   const getSenderNicknameById = useCallback(
     (id) => {
@@ -135,6 +154,7 @@ const Chat = ({ route }) => {
 
   return (
     <Container>
+      <ToggleContainer opened={peopleOpened} />
       <Messages
         inverted
         data={messages}

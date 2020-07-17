@@ -4,9 +4,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { Container, TInput } from './styles';
 
-const Input = forwardRef(({ style, icon, ...rest }, ref) => {
+const Input = forwardRef(({ style, icon, error, ...rest }, ref) => {
   return (
-    <Container style={style}>
+    <Container style={style} error={error}>
       {icon && <Icon name={icon} size={20} color="rgba(255, 255, 255, 0.6)" />}
       <TInput {...rest} ref={ref} />
     </Container>

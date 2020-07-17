@@ -6,8 +6,8 @@ const RoomItem = ({ roomData, onPress }) => {
   return (
     <Wrapper>
       <Container onPress={onPress}>
-        <RoomName>Room's name {roomData}</RoomName>
-        <Online>27 Online</Online>
+        <RoomName>{roomData.name}</RoomName>
+        <Online>{roomData.people.length}</Online>
       </Container>
     </Wrapper>
   );

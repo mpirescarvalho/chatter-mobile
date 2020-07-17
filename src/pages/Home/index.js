@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
+import io from 'socket.io-client';
+
+import api from '../../services/api';
 
 import Input from '../../components/Input';
 
@@ -6,52 +10,97 @@ import RoomItem from './RoomItem';
 
 import { Container, Title, RoomList, Button, ButtonText } from './styles';
 
-const data = [
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  16,
-  17,
-  18,
-  19,
-  20,
-  21,
-  22,
-  23,
-  24,
-  25,
-];
+const Home = ({ navigation }) => {
+  const [rooms, setRooms] = useState([]);
+  const [errors, setErrors] = useState({
+    nickname: false,
+    roomName: false,
+  });
 
-const Home = () => {
+  const [nickname, setNickname] = useState('');
+  const [roomName, setRoomName] = useState('');
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      api.get('/rooms').then((response) => setRooms(response.data));
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    const socket = io('https://chatter-backend-server.herokuapp.com');
+    socket.on('rooms_changed', setRooms);
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  //Remove error hints from inputs after 2 seconds
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setErrors({ nickname: false, roomName: false });
+    }, 2000);
+    return () => clearTimeout(id);
+  }, [errors]);
+
+  function handleRoomClick(room) {
+    if (!nickname) {
+      setErrors({ ...errors, nickname: true });
+      return;
+    }
+    navigation.navigate('Chat', { roomId: room.id });
+  }
+
+  function handleCreateRoom() {
+    if (!nickname) {
+      setErrors({ ...errors, nickname: true });
+      return;
+    }
+
+    if (!roomName) {
+      setErrors({ ...errors, roomName: true });
+      return;
+    }
+
+    api.post('/rooms', { name: roomName }).then((res) => {
+      const { room_id } = res.data;
+      if (room_id) {
+        navigation.navigate('Chat', { roomId: room_id, nickname });
+        setRoomName('');
+      }
+    });
+  }
+
   return (
     <Container>
       <Title>Join a room, or create your own.</Title>
 
-      <Input autoCorrect={false} placeholder="Nickname" />
+      <Input
+        error={errors.nickname}
+        autoCorrect={false}
+        placeholder="Nickname"
+        value={nickname}
+        onChangeText={setNickname}
+      />
 
       <RoomList
-        data={data}
-        keyExtractor={(item) => String(item)}
+        data={rooms}
+        keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => (
-          <RoomItem roomData={item} onPress={() => {}} />
+          <RoomItem roomData={item} onPress={handleRoomClick} />
         )}
       />
 
-      <Input autoCorrect={false} placeholder="Room name" />
+      <Input
+        error={errors.roomName}
+        autoCorrect={false}
+        placeholder="Room name"
+        value={roomName}
+        onChangeText={setRoomName}
+      />
 
-      <Button onPress={() => {}}>
+      <Button onPress={handleCreateRoom}>
         <ButtonText>Create Room</ButtonText>
       </Button>
     </Container>

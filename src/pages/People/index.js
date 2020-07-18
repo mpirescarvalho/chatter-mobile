@@ -1,13 +1,14 @@
 import React, { useLayoutEffect } from 'react';
-import { View, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useIsFocused } from '@react-navigation/native';
 
-// import { Container } from './styles';
+import { Container, List, Avatar, Name, Person } from './styles';
 
-const People = ({ navigation, stackNavigation }) => {
+const People = ({ route, navigation, stackNavigation }) => {
   const isFocused = useIsFocused();
+
+  const { peopleColors, room } = route.params;
 
   useLayoutEffect(() => {
     if (stackNavigation && isFocused) {
@@ -25,9 +26,22 @@ const People = ({ navigation, stackNavigation }) => {
   }, [stackNavigation, isFocused]);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>People here</Text>
-    </View>
+    <Container>
+      <List
+        data={room.people}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Person>
+            <Avatar
+              source={{
+                uri: `https://api.adorable.io/avatar/50/${item.id}.png`,
+              }}
+            />
+            <Name color={peopleColors[item.id]}>Marcelo Carvalho</Name>
+          </Person>
+        )}
+      />
+    </Container>
   );
 };
 

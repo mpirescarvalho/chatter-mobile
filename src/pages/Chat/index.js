@@ -50,7 +50,12 @@ const Chat = ({ route, navigation, stackNavigation }) => {
       stackNavigation.setOptions({
         headerRight: () => (
           <TouchableOpacity
-            onPress={() => navigation.navigate('People')}
+            onPress={() =>
+              navigation.navigate('People', {
+                room,
+                peopleColors,
+              })
+            }
             style={{ marginRight: 16 }}
           >
             <Icon name="people" color="#000" size={24} />
@@ -58,7 +63,7 @@ const Chat = ({ route, navigation, stackNavigation }) => {
         ),
       });
     }
-  }, [stackNavigation, isFocused]);
+  }, [stackNavigation, isFocused, room, peopleColors]);
 
   const getSenderNicknameById = useCallback(
     (id) => {

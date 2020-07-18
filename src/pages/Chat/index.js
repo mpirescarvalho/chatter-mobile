@@ -6,12 +6,12 @@ import React, {
 } from 'react';
 import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 import api from '../../services/api';
 
 import Message from './Message';
-import ToggleContainer from '../../components/ToggleContainer';
 
 import {
   Container,
@@ -33,30 +33,32 @@ const colors = [
   '#607d8b',
 ];
 
-const Chat = ({ route, navigation }) => {
+const Chat = ({ route, navigation, stackNavigation }) => {
   const [loading, setLoading] = useState(true);
   const [myID, setMyID] = useState();
   const [messages, setMessages] = useState([]);
   const [room, setRoom] = useState();
   const [peopleColors, setPeopleColors] = useState();
-  const [peopleOpened, setPeopleOpened] = useState(false);
-
   const [myMessage, setMyMessage] = useState('');
 
   const { roomId, nickname } = route.params;
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={{ marginRight: 16 }}
-          onPress={() => setPeopleOpened((value) => !value)}
-        >
-          <Icon name="people" color="#000" size={24} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
+  const isFocused = useIsFocused();
+
+  useLayoutEffect(() => {
+    if (stackNavigation && isFocused) {
+      stackNavigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('People')}
+            style={{ marginRight: 16 }}
+          >
+            <Icon name="people" color="#000" size={24} />
+          </TouchableOpacity>
+        ),
+      });
+    }
+  }, [stackNavigation, isFocused]);
 
   const getSenderNicknameById = useCallback(
     (id) => {
@@ -154,7 +156,6 @@ const Chat = ({ route, navigation }) => {
 
   return (
     <Container>
-      <ToggleContainer opened={peopleOpened} />
       <Messages
         inverted
         data={messages}

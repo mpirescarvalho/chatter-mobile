@@ -50,9 +50,12 @@ const Home = ({ navigation }) => {
       return;
     }
     navigation.navigate('Chat', {
-      roomId: room.id,
-      nickname,
+      screen: 'Messages',
       roomName: room.name,
+      params: {
+        roomId: room.id,
+        nickname,
+      },
     });
   }
 
@@ -71,9 +74,12 @@ const Home = ({ navigation }) => {
       const { room_id } = res.data;
       if (room_id) {
         navigation.navigate('Chat', {
-          roomId: room_id,
-          nickname,
+          screen: 'Messages',
           roomName,
+          params: {
+            roomId: room_id,
+            nickname,
+          },
         });
         setRoomName('');
       }

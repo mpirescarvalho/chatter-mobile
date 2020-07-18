@@ -13,8 +13,10 @@ export const Container = styled.View`
 
 export const Sender = styled.Text`
   color: ${(props) => props.color};
+  font-family: 'RobotoMono_700Bold';
 `;
 
 export const Content = styled.Text`
   color: #fff;
+  font-family: 'RobotoMono_400Regular';
 `;

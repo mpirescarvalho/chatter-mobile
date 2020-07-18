@@ -37,7 +37,7 @@ const People = ({ route, navigation, stackNavigation }) => {
                 uri: `https://api.adorable.io/avatar/50/${item.id}.png`,
               }}
             />
-            <Name color={peopleColors[item.id]}>Marcelo Carvalho</Name>
+            <Name color={peopleColors[item.id]}>{item.nickname}</Name>
           </Person>
         )}
       />

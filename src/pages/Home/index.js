@@ -17,7 +17,7 @@ const Home = ({ navigation }) => {
     roomName: false,
   });
 
-  const [nickname, setNickname] = useState('Marcelo');
+  const [nickname, setNickname] = useState('');
   const [roomName, setRoomName] = useState('');
 
   const isFocused = useIsFocused();
